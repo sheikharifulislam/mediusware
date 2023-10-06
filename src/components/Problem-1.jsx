@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import filterTodos from "../utils/filterTodos";
 
 const initialState = {
     name: "",
@@ -16,7 +17,7 @@ const Problem1 = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setTodos((prv) => [...prv, { ...data }]);
+        setTodos((prv) => [...prv, { ...data, id: Date.now() }]);
         setData(initialState);
     };
 
@@ -104,8 +105,8 @@ const Problem1 = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {todos.map((todo) => (
-                                <tr>
+                            {filterTodos({ todos, status: show }).map((todo) => (
+                                <tr key={todo.id}>
                                     <th scope="row">{todo.name}</th>
                                     <td>{todo.status}</td>
                                 </tr>
