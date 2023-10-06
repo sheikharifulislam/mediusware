@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 
+const initialState = {
+    name: "",
+    status: "",
+};
+
 const Problem1 = () => {
     const [show, setShow] = useState("all");
-    const [list, setList] = useState([]);
-    const [data, setData] = useState({
-        name: "",
-        status: "",
-    });
+    const [todos, setTodos] = useState([]);
+    const [data, setData] = useState(initialState);
 
     const handleClick = (val) => {
         setShow(val);
@@ -14,7 +16,8 @@ const Problem1 = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setData({});
+        setTodos((prv) => [...prv, { ...data }]);
+        setData(initialState);
     };
 
     const handleChange = (e) => {
@@ -48,12 +51,17 @@ const Problem1 = () => {
                                 className="form-control"
                                 placeholder="Status"
                                 name="status"
-                                value={data.state}
+                                value={data.status}
                                 onChange={handleChange}
                             />
                         </div>
                         <div className="col-auto">
-                            <input type="submit" value="Submit" className="btn btn-primary" />
+                            <input
+                                type="submit"
+                                value="Submit"
+                                className="btn btn-primary"
+                                disabled={!data.name || !data.status}
+                            />
                         </div>
                     </form>
                 </div>
@@ -95,7 +103,14 @@ const Problem1 = () => {
                                 <th scope="col">Status</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            {todos.map((todo) => (
+                                <tr>
+                                    <th scope="row">{todo.name}</th>
+                                    <td>{todo.status}</td>
+                                </tr>
+                            ))}
+                        </tbody>
                     </table>
                 </div>
             </div>
